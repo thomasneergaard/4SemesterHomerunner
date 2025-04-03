@@ -75,11 +75,13 @@ def max_weight_reached(weight: float):
     return
 
 
+
 def show_queue():
     print("Queue tal: " + str(get_queue_average()))
     print("Queue str: " + str(queue.qsize()))
 
 def main(number: float):
     add_number(number)
+    max_weight_reached(number)
     show_queue()
     return
