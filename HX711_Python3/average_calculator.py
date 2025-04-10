@@ -5,7 +5,7 @@ queue_capacity = 10
 queue = Queue(10)
 threshold = 0.2
 full_sum = 0
-max_weight = 50
+max_weight = 1500
 
 def get_queue_average():
     global full_sum
@@ -36,8 +36,8 @@ def number_deviation_low(number: float):
         raise custom_exceptions.number_deviation_low(number, avg)
 
 rules = {
-    "high_deviation": number_deviation_low,
-    "low_deviation": number_deviation_high
+    "high_deviation": number_deviation_high,
+    "low_deviation": number_deviation_low
     }
 
 def add_number(weight_number: float):
@@ -68,10 +68,10 @@ def add_number(weight_number: float):
     except ValueError:
         print("Ugyldigt input! Indtast venligst et tal.")
 
-def max_weight_reached(weight: float):
+def max_weight_reached():
     global max_weight
-    if weight >= max_weight:
-        raise custom_exceptions.weight_too_heavy
+    if get_queue_average() >= max_weight:
+        raise custom_exceptions.weight_too_heavy(get_queue_average())
     return
 
 
@@ -82,6 +82,6 @@ def show_queue():
 
 def main(number: float):
     add_number(number)
-    max_weight_reached(number)
+    max_weight_reached()
     show_queue()
-    return
+    return get_queue_average()

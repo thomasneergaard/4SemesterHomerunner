@@ -20,8 +20,7 @@ class number_deviation_low(Exception):
 
 class weight_too_heavy(Exception):
     """Exception raised for numbers that go over max_weight"""
-    def __init__(self, number, avg, message="Vægten er for tung"):
-        self.number = number
+    def __init__(self, avg, message="Vægten er for tung"):
         self.avg = avg
         self.message = message
         super().__init__(self.message)
