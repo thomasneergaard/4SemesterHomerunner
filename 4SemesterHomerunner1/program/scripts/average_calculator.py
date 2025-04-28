@@ -1,11 +1,18 @@
 import custom_exceptions
+import loadcells
 from queue import Queue
 
+load = loadcells
 queue_capacity = 10
 queue = Queue(10)
 threshold = 0.2
 full_sum = 0
 max_weight = 50
+
+def get_weight_number():
+    add_number(load.get_weight_in_kg())
+    show_queue()
+    return get_queue_average()
 
 def get_queue_average():
     global full_sum
@@ -75,11 +82,8 @@ def max_weight_reached(weight: float):
     return
 
 
+
+
 def show_queue():
     print("Queue tal: " + str(get_queue_average()))
     print("Queue str: " + str(queue.qsize()))
-
-def main(number: float):
-    add_number(number)
-    show_queue()
-    return get_queue_average()
