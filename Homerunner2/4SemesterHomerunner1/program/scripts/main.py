@@ -4,8 +4,10 @@ import asyncio
 import websockets
 import json
 
+
 WS_URL = "ws://152.70.50.114:8765/sndr"
 SEND_INTERVAL = 1
+    
     
 def calculate_data():
     data = {
@@ -27,8 +29,16 @@ async def send_data():
                 await asyncio.sleep(SEND_INTERVAL)
 
 
-if __name__ == "__main__":
-    try:
-        asyncio.run(send_data())
-    except KeyboardInterrupt:
-        print("Afslutter...")
+#if __name__ == "__main__":
+ #   try:
+  #      asyncio.run(send_data())
+  # except KeyboardInterrupt:
+     #   print("Afslutter...")
+        
+while True:
+    
+    weight2 = average_calculator.get_weight_raw()
+    weight = average_calculator.get_weight_number()
+    print("Forarbejdet nummer: " + str(weight))
+    print("Råt nummer:" + str(weight2))
+
