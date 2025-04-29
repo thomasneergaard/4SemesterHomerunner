@@ -1,6 +1,8 @@
 import unittest
-import average_calculator as ac
+import scripts
 import custom_exceptions
+import sys
+sys.path.insert(0, 'denne pc/3rd semester projekt/4SemesterHomerunner/4SemesterHomerunner1/program/scripts')
 
 class TestAverageCalculator(unittest.TestCase):
     def setUp(self):
