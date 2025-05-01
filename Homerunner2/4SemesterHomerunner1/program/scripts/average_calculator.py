@@ -2,20 +2,24 @@ import custom_exceptions
 import loadcells
 from queue import Queue
 
-load = loadcells
-queue_capacity = 10
+#load = loadcells
 queue = Queue(10)
-threshold = 0.4
+queue_capacity = 10
+threshold = 0.6
 full_sum = 0
-max_weight = 50
+test_weights = [75.2, 76.0, 75.8, 76.5, 77.1]
+weight_iterator = iter(test_weights)
 
-def get_weight_raw():
-    weight = load.get_weight_in_grams()
-    return weight
+#def get_weight_raw():
+#    weight = load.get_weight_in_grams()
+#    return weight
+
 
 def get_weight_number():
-    add_number(load.get_weight_in_kg())
-    return get_queue_average()
+    #add_number(load.get_weight_in_kg())
+    data = next(weight_iterator)
+    add_number(data)
+    return round(get_queue_average(), 1)
 
 def get_queue_average():
     global full_sum
@@ -23,7 +27,7 @@ def get_queue_average():
 
     if queue.qsize() == 0:
         return 0
-    return round(full_sum / queue.qsize() / 1000, 1)
+    return full_sum / queue.qsize()
 
 def number_deviation_high(number: float):
     global queue
@@ -32,7 +36,7 @@ def number_deviation_high(number: float):
     if queue.qsize() < queue_capacity - 1:
         return
     avg = get_queue_average()
-    if number > avg * (1 + threshold):
+    if number > avg + threshold:
         raise custom_exceptions.number_deviation_high(number, avg)
 
 def number_deviation_low(number: float):
@@ -42,7 +46,7 @@ def number_deviation_low(number: float):
     if queue.qsize() < queue_capacity - 1:
         return
     avg = get_queue_average()
-    if number < avg * (1 - threshold):
+    if number < avg - threshold:
         raise custom_exceptions.number_deviation_low(number, avg)
 
 rules = {
@@ -77,12 +81,6 @@ def add_number(weight_number: float):
         print(f"Exception Occurred: {e.message} for tal {e.number}, gennemsnit {e.avg}. Prøv igen.")
     except ValueError:
         print("Ugyldigt input! Indtast venligst et tal.")
-
-def max_weight_reached(weight: float):
-    global max_weight
-    if weight >= max_weight:
-        raise custom_exceptions.weight_too_heavy
-    return
 
 
 

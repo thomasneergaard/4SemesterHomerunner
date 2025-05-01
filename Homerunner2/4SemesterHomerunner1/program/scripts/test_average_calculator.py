@@ -32,12 +32,12 @@ class TestAverageCalculator(unittest.TestCase):
     def test_high_deviation_raises(self):
         self.fill_queue([10] * 10)  # Fill to capacity
         with self.assertRaises(custom_exceptions.number_deviation_high):
-            ac.number_deviation_high(15)
+            ac.number_deviation_high(10.7)
 
     def test_low_deviation_raises(self):
         self.fill_queue([10] * 10)  # Fill to capacity
         with self.assertRaises(custom_exceptions.number_deviation_low):
-            ac.number_deviation_low(7)
+            ac.number_deviation_low(9.2)
 
     def test_queue_rollover(self):
         self.fill_queue([10] * 10)
@@ -51,18 +51,6 @@ class TestAverageCalculator(unittest.TestCase):
     def test_get_queue_average_non_empty(self):
         self.fill_queue([10, 20, 30])
         self.assertEqual(ac.get_queue_average(), 20)
-
-    def test_max_weight_not_triggered(self):
-        self.fill_queue([40] * 5)
-        try:
-            ac.max_weight_reached(ac.get_queue_average())
-        except Exception:
-            self.fail("max_weight_reached() should not raise with avg < max_weight")
-
-    def test_max_weight_triggered(self):
-        self.fill_queue([1500] * 10)
-        with self.assertRaises(custom_exceptions.weight_too_heavy):
-            ac.max_weight_reached(ac.get_queue_average())
 
     def test_get_weight_number(self):
         result = ac.get_weight_number()
