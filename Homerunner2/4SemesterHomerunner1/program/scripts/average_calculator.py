@@ -1,15 +1,18 @@
 import custom_exceptions
-#import loadcells
 from queue import Queue
 
 
-#load = loadcells
 queue = Queue(10)
 threshold = 0.6
 full_sum = 0
 reset_queue = Queue(5)
-test_weights = [10, 10, 10, 10, 10, 10.7]
-weight_iterator = iter(test_weights)
+test_mode = True
+if test_mode == False:
+    import loadcells
+    loadcells = loadcells
+else:
+    test_weights = [10, 10, 10, 10, 10, 10.7, 11, 12, 15, 11]
+    weight_iterator = iter(test_weights)
 
 
 # Lavet for testing årsager
@@ -22,9 +25,11 @@ weight_iterator = iter(test_weights)
 # Tilføjer værdien til queue og returnerer et afrundet
 # gennemsnit af værdier på queue
 def get_weight_number():
-    #add_number(load.get_weight_in_kg())
-    data = next(weight_iterator)
-    add_number(data)
+    if test_mode == False:
+        add_number(loadcells.get_weight_in_kg())
+    else:
+        data = next(weight_iterator)
+        add_number(data)
     return round(get_queue_average(), 1)
 
 
@@ -55,8 +60,6 @@ def number_deviation_high(number: float):
     global queue
     global threshold
 
-    #if queue.qsize() < queue.maxsize - 5:
-    #    return
     avg = get_queue_average()
     if number > avg + threshold:
         raise custom_exceptions.number_deviation_high(number, avg)
@@ -70,17 +73,14 @@ def number_deviation_low(number: float):
     global threshold
     global full_sum
 
-    #if queue.qsize() < queue.maxsize - 5:
-    #    return
     avg = get_queue_average()
     if number < avg - threshold:
-        current_average = get_queue_average()
-        #loadcells.reset()
+        if test_mode == False:
+            loadcells.reset()
         while queue.qsize() != 0:
             removed_value = queue.get()
             full_sum -= removed_value
-            #load.reset()
-        raise custom_exceptions.number_deviation_low(number, current_average)
+        raise custom_exceptions.number_deviation_low(number, avg)
 
 
 
@@ -94,16 +94,15 @@ def add_number(weight_number: float):
     global queue
 
     try:
-        if queue.qsize() >= queue.maxsize and queue.qsize() > 0:
-            removed_value = queue.get()
-            full_sum -= removed_value
-
         if queue.qsize() < 5:
             queue.put(weight_number)
             full_sum += weight_number
             return
 
-        #weight_reset(weight_number)
+        if queue.qsize() >= queue.maxsize:
+            removed_value = queue.get()
+            full_sum -= removed_value
+
         number_deviation_high(weight_number)
         number_deviation_low(weight_number)
 

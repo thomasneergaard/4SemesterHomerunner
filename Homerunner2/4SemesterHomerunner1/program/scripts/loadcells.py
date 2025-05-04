@@ -38,5 +38,5 @@ def get_weight_in_kg_test():
     return weight
 
 # Nulstiller vægten
-#def reset():
-    #hx.zero()
+def reset():
+    hx.zero()

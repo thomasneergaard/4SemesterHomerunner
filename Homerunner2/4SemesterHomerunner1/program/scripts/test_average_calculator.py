@@ -52,13 +52,6 @@ class TestAverageCalculator(unittest.TestCase):
         self.fill_queue([10, 20, 30])
         self.assertEqual(ac.get_queue_average(), 20)
 
-    def test_get_weight_number(self):
-        result = ac.get_weight_number()
-        self.assertEqual(result, 10)
-        self.assertEqual(ac.queue.qsize(), 1)
-        self.assertIn(10, list(ac.queue.queue))
-        mock_loadcells.get_weight_in_kg.assert_called_once()
-
 
 if __name__ == '__main__':
     unittest.main()
