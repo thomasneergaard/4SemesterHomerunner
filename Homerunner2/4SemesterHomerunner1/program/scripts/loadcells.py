@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 from hx711 import HX711
 import time
 
@@ -8,11 +8,15 @@ import time
 #hx.zero()
 #hx.set_scale_ratio(-20.79251)
 
+# Lavet til for testing årsager
+# Henter en vægt fra badevægten og returnerer den som float
 def get_weight_in_grams():
     #weight = hx.get_weight_mean()
     weight = 0
     return weight
 
+# Henter en vægt fra badevægten og omdanner vægten fra gram til kg
+# Returnerer vægt i kg
 def get_weight_in_kg():
     #weight = hx.get_weight_mean()
     weight = 0
@@ -33,14 +37,6 @@ def get_weight_in_kg_test():
         return weight
     return weight
 
+# Nulstiller vægten
 #def reset():
     #hx.zero()
-
-
-
-
-    
-
-
-
-    

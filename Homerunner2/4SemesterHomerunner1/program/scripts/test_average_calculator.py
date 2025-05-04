@@ -16,7 +16,7 @@ class TestAverageCalculator(unittest.TestCase):
         ac.queue_capacity = 10
         ac.queue = ac.Queue(ac.queue_capacity)
         ac.full_sum = 0
-        mock_loadcells.get_weight_in_kg.return_value = 10  # <- ensure return value
+        mock_loadcells.get_weight_in_kg.return_value = 10
 
     def fill_queue(self, values):
         for v in values:
@@ -25,12 +25,12 @@ class TestAverageCalculator(unittest.TestCase):
 
     def test_add_normal_number(self):
         self.fill_queue([10, 10, 10, 10, 10])
-        ac.add_number(11)
+        ac.add_number(10.5)
         self.assertEqual(ac.queue.qsize(), 6)
-        self.assertIn(11, list(ac.queue.queue))
+        self.assertIn(10.5, list(ac.queue.queue))
 
     def test_high_deviation_raises(self):
-        self.fill_queue([10] * 10)  # Fill to capacity
+        self.fill_queue([10] * 10)
         with self.assertRaises(custom_exceptions.number_deviation_high):
             ac.number_deviation_high(10.7)
 
