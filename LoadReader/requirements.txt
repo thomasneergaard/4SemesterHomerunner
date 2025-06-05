@@ -1,0 +1,4 @@
+hx711
+pytest
+websockets
+pytest-asyncio
